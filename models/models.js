@@ -1,8 +1,8 @@
-const sequelize = require('../db')
-const {DataTypes} = require('sequelize')
+const sq = require('../db')
+const { DataTypes } = require('sequelize')
 
 
-const User = sequelize.define('user', {
+const User = sq.define('user', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     full_name: {type: DataTypes.STRING, unique: false,},
     email: {type: DataTypes.STRING, unique: true,},
@@ -10,11 +10,11 @@ const User = sequelize.define('user', {
     role: {type: DataTypes.STRING, defaultValue: "USER"},
 })
 
-const Product = sequelize.define('product', {
+const Product = sq.define('product', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: false, allowNull: false},
-    description: {type: DataTypes.STRING(10000)},
-    shortDescription: {type: DataTypes.STRING(10000)},
+    description: {type: DataTypes.JSON, allowNull: true},
+    shortDescription: {type: DataTypes.JSON, allowNull: true},
     price: {type: DataTypes.INTEGER, allowNull: false},
     rating: {type: DataTypes.INTEGER, defaultValue: 0},
     img: {type: DataTypes.STRING, allowNull: false},

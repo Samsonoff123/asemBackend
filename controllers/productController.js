@@ -10,13 +10,11 @@ class ProductController {
     async create(req, res, next) {
         try {
             let { name, price, tag, img, description, shortDescription } = req.body  
-            console.log({ name, price, tag, img, description })
             const device = await Product.create({ name, price, tag, img, description, shortDescription })
-            console.log(device)
      
             return res.json(device)
         } catch (e) {
-            console.log("error")
+            console.log("error" ,e)
             next(ApiError.badRequest(e))
         }   
     }  
