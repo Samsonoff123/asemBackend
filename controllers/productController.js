@@ -24,6 +24,7 @@ class ProductController {
         page = page || 1
         limit = limit || 100
         let offset = page * limit - limit
+
         let devices = await Product.findAndCountAll({limit, offset})
 
         return res.json(devices)
@@ -32,13 +33,45 @@ class ProductController {
 
     async getOne(req, res) {
         const {id} = req.params
+
         const device = await Product.findOne(
             {
                 where: {id},
-            }
+            },
         )
 
-        console.log(device);
+        await Product.update(
+            {
+                views: device.views + 1
+            },
+            {
+                where: {id},
+            },
+        )
+
+        return res.json(device)
+    }
+
+    async setRating(req, res) {
+        const { id } = req.params
+        const { rating } = req.body
+
+        const device = await Product.findOne(
+            {
+                where: {id},
+            },
+        )
+
+        const num = (device.rating + rating) / 2
+
+        await Product.update(
+            {
+                rating: num.toFixed(2)
+            },
+            {
+                where: {id},
+            },
+        )
 
         return res.json(device)
     }
