@@ -12,6 +12,7 @@ const {
     Op,
     Sequelize
 } = require("sequelize");
+const jwt = require('jsonwebtoken');
 
 class ProductController {
     async create(req, res, next) {
@@ -84,7 +85,8 @@ class ProductController {
         try {
             const {id} = req.params
             const {rating} = req.body
-            const {userId} = req.session
+            const token = req.headers.authorization.split(' ')[1];
+            const userId = token;
 
             if (!req.session.ratings) {
                 req.session.ratings = {};
