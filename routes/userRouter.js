@@ -7,5 +7,6 @@ const checkRole = require('../middleware/checkRoleMiddleware')
 router.post('/reg', userController.registration)
 router.post('/login', userController.login)
 router.get('/auth', authMiddleware, userController.check)
+router.get('/', authMiddleware, userController.getAll)
 
 module.exports = router

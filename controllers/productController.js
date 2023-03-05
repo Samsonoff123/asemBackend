@@ -38,12 +38,13 @@ class ProductController {
             }
         )
 
+        console.log(device);
+
         return res.json(device)
     }
 
     async remove (req, res) {
         try {
-            console.log(req.params.id);
             const postId = req.params.id
     
             await Product.destroy({
