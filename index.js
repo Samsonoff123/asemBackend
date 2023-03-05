@@ -7,13 +7,21 @@ const router = require('./routes/index')
 const errorHandler = require('./middleware/ErrorHandlingMiddleware')
 const fileUpload = require('express-fileupload')
 const path = require('path')
+const session = require('express-session')
 
 
 const PORT = process.env.PORT || 5000
 
 
 const app = express()
-app.use(cors())
+
+app.use(session({
+    secret: process.env.SECRET_KEY, 
+    resave: false, 
+    saveUninitialized: true,
+}))
+
+
 app.use(express.json())
 app.use(express.static(path.resolve(__dirname, 'tmp')))
 app.use(fileUpload({}))
@@ -33,3 +41,4 @@ const start = async () => {
 }
  
 start()
+

@@ -82,30 +82,39 @@ class ProductController {
 
     async setRating(req, res) {
         try {
-            const {
-                id
-            } = req.params
-            const {
-                rating
-            } = req.body
+            const {id} = req.params
+            const {rating} = req.body
+            const {userId} = req.session
 
-            const device = await Product.findOne({
-                where: {
-                    id
-                },
-            }, )
+            if (!req.session.ratings) {
+                req.session.ratings = {};
+            }
 
-            const num = (device.rating + rating) / 2
+            if (!req.session.ratings[id]) {
+                req.session.ratings[id] = {
+                  userId: userId,
+                  rating: rating,
+                };
+                const device = await Product.findOne({
+                    where: {
+                        id
+                    },
+                }, )
+    
+                const num = (device.rating + rating) / 2
+    
+                await Product.update({
+                    rating: num.toFixed(2)
+                }, {
+                    where: {
+                        id
+                    },
+                }, )
+    
+                return res.json("Рейтинг успешно сохранен")
+            }
+            return res.json("Вы уже оценивали этот товар")
 
-            await Product.update({
-                rating: num.toFixed(2)
-            }, {
-                where: {
-                    id
-                },
-            }, )
-
-            return res.json("sucsess")
         } catch (error) {
             return res.json({
                 error
