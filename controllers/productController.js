@@ -81,6 +81,16 @@ class ProductController {
         return res.json(device)
     }
 
+    async getMostViews(req, res) {
+        const devices = await Product.findAll()
+
+        const mostViewedProduct = devices.reduce((prev, current) => {
+            return (prev.views > current.views) ? prev : current;
+          });
+
+        return res.json(mostViewedProduct)
+    }
+
     async setRating(req, res) {
         try {
             const {id} = req.params

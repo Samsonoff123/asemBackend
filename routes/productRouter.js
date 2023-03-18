@@ -7,6 +7,7 @@ router.post('/', checkRole('ADMIN'), ProductController.create)
 router.post('/set-rating/:id', ProductController.setRating)
 router.get('/', ProductController.getAll)
 router.get('/:id', ProductController.getOne)
+router.get('/getMostViews', ProductController.getMostViews)
 router.delete('/:id', checkRole('ADMIN'), ProductController.remove)
 
 module.exports = router
